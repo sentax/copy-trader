@@ -1,0 +1,2 @@
+# copy-trader
+a practice :)
