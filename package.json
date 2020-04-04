@@ -1,0 +1,25 @@
+{
+  "name": "copy-trader",
+  "version": "1.0.0",
+  "description": "a practice :)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sentax/copy-trader.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sentax/copy-trader/issues"
+  },
+  "homepage": "https://github.com/sentax/copy-trader#readme",
+  "dependencies": {
+    "fastify": "^2.13.0",
+    "mongoose": "^5.9.7",
+    "mongoose-unique-validator": "^2.0.3"
+  }
+}
