@@ -26,27 +26,33 @@ async function registerRoute(fastify, options) {
 			}
 		},
 		async (request, reply) => {
-			// const user = request.body;
+			const user = request.body;
 			let token;
 			try {
-				await fastify.DB['Users'].create(request.body).then((user) => {
-					console.log(user);
-					token = fastify.AuthService.accessToken.sign({
-						em : user.em,
-						un : user.un
+				await fastify.DB['Users']
+					.create({
+						un  : user.un,
+						em  : user.em,
+						pwd : user.pwd,
+						pn  : user.pn,
+						bn  : user.bn
+					})
+					.then((user) => {
+						console.log(user);
+						token = fastify.AuthService.accessToken.sign({
+							em  : user.em,
+							un  : user.un,
+							_id : user._id
+						});
 					});
-				});
 
-				reply.statusCode = 200;
-				reply.send({
+				return reply.status(200).send({
 					statusCode : reply.statusCode,
 					message    : 'Saved Successfully',
 					token      : token
 				});
 			} catch (error) {
-				reply.statusCode = 400;
-				console.log(error);
-				reply.send(error);
+				reply.status(400).send(error);
 			}
 		}
 	);

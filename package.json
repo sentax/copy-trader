@@ -22,8 +22,11 @@
     "dependencies": {
         "bcryptjs": "^2.4.3",
         "fastify": "^2.13.0",
+        "jsonwebtoken": "^8.5.1",
         "mongoose": "^5.9.7",
-        "mongoose-unique-validator": "^2.0.3"
+        "mongoose-unique-validator": "^2.0.3",
+        "otplib": "^12.0.1",
+        "redis": "^3.0.2"
     },
     "devDependencies": {
         "nodemon": "^2.0.2"

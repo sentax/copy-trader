@@ -1,21 +1,24 @@
 const mongoose = require('mongoose'),
+	bcrypt = require('bcryptjs'),
+	{ authenticator } = require('otplib'),
 	uniqueValidator = require('mongoose-unique-validator'),
-	objId = mongoose.Types.ObjectId,
 	Mixed = mongoose.Schema.Types.Mixed;
 const schema = new mongoose.Schema({
 	cA  : { type: Date, default: Date.now },
 	uA  : { type: Date, default: Date.now },
-	em  : { type: String, required: true, unique: true }, // email
+	em  : { type: String, required: true, unique: true, lowercase: true }, // email
 	un  : {
-		type     : String,
-		required : true,
-		unique   : true,
-		trim     : true
+		type      : String,
+		required  : true,
+		unique    : true,
+		trim      : true,
+		lowercase : true
 	},
 	bn  : {
 		// base name
-		type : String,
-		trim : true
+		type    : String,
+		trim    : true,
+		default : null
 	},
 	pwd : {
 		//password
@@ -28,11 +31,13 @@ const schema = new mongoose.Schema({
 	},
 	pn  : {
 		//phone number
-		type : Number
+		type    : Number,
+		default : null
 	},
 	pm  : {
 		// permission
-		type : String
+		type    : String,
+		default : 'U'
 	},
 	tfa : {
 		//boolean
@@ -42,15 +47,22 @@ const schema = new mongoose.Schema({
 
 	tfs : {
 		// tfa secret key
-		type   : String,
-		unique : true
+		type    : String,
+		default : authenticator.generateSecret()
 	},
-	mt  : { type: Mixed }
+	st  : { type: Boolean, default: true },
+	mt  : { type: Mixed, default: null }
 });
+console.log(authenticator.generateSecret());
 //validate unique records
 schema.plugin(uniqueValidator);
-//set _id field before creating each record in database
-schema.pre('save', function(next) {
+schema.pre('save', async function(next) {
+	if (this.isModified('pwd')) {
+		// hashing the password
+
+		this.pwd = await bcrypt.hash(this.pwd, 8);
+	}
 	next();
 });
+
 module.exports = schema;
