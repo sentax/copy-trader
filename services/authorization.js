@@ -46,12 +46,13 @@ const tempToken = {
 	},
 	verify(req, res, next) {
 		// Check token Correctivity
+		console.log(req.headers);
 		const token = checkHeaders(req, res);
 		jwt.verify(token, privateKey, function(err, decoded) {
 			if (err) return res.status(401).send({ ERR: `Token is not valid` });
 			if (decoded) {
 				req.token = decoded;
-				next();
+				// next();
 			}
 		});
 	}
@@ -69,7 +70,7 @@ const refreshToken = {
 			privateKey,
 			{ expiresIn: 24 * (60 * 60) * 30 } // Expires in 1M
 		);
-		await fastify.Redis.set(key, token, 'EX', 1); //Expires in 1M
+		await fastify.Redis.set(key, token, 'EX', 24 * (60 * 60) * 30); //Expires in 1M
 
 		return await token;
 	},
