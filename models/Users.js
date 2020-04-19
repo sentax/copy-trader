@@ -53,7 +53,6 @@ const schema = new mongoose.Schema({
 	st  : { type: Boolean, default: true },
 	mt  : { type: Mixed, default: null }
 });
-console.log(authenticator.generateSecret());
 //validate unique records
 schema.plugin(uniqueValidator);
 schema.pre('save', async function(next) {

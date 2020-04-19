@@ -20,14 +20,14 @@ const accessToken = {
 			{ expiresIn: 4 * (60 * 60) }
 		); // Expires in 4h
 	},
-	verify(req, res, next) {
+	verify(req, res) {
 		// Check token Correctivity
 		const token = checkHeaders(req, res);
 		jwt.verify(token, privateKey, function(err, decoded) {
 			if (err) return res.status(401).send({ ERR: `Token is not valid` });
 			if (decoded) {
 				req.token = decoded;
-				next();
+				// next();
 			}
 		});
 	}
@@ -46,7 +46,6 @@ const tempToken = {
 	},
 	verify(req, res, next) {
 		// Check token Correctivity
-		console.log(req.headers);
 		const token = checkHeaders(req, res);
 		jwt.verify(token, privateKey, function(err, decoded) {
 			if (err) return res.status(401).send({ ERR: `Token is not valid` });
