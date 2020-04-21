@@ -1,5 +1,5 @@
 async function registerRoute(fastify, options) {
-	console.log('auth route');
+
 	fastify.post(
 		'/api/v1/auth/register',
 		{
