@@ -28,26 +28,35 @@ async function activate2fa(fastify, options) {
 				const foundUser = await fastify.DB['Users'].findOne({
 					em : request.token.em
 				});
-				if (foundUser.tfa) reply.status(401).send({ error: 'users tfa was enabled before' });
-				if (!bcrypt.compareSync(user.pwd, foundUser.pwd)) {
-					return reply.status(401).send({ error: 'Bad password' });
+				if (!(foundUser && foundUser._id)) {
+					const err = new Error();
+					err.statusCode = 500;
+					err.message = `Unable to create User`;
+					throw err;
+				}
+				if (foundUser.tfa) {
+					const err = new Error();
+					err.statusCode = 401;
+					err.message = `users tfa was enabled before`;
+					throw err;
 				}
 				const verifiedCode = authenticator.verify({ token: user.code, secret: foundUser.tfs });
-				if (!verifiedCode) {
-					return reply.status(401).send({
-						statusCode : 401,
 
-						message    : 'The Code is not correct.'
-					});
+				if (!bcrypt.compareSync(user.pwd, foundUser.pwd) || !verifiedCode) {
+					const err = new Error();
+					err.statusCode = 401;
+					err.message = `wrong password or wrong code`;
+					throw err;
 				}
+
 				await fastify.DB['Users'].findByIdAndUpdate(foundUser._id, {
 					tfa : true,
 					uA  : Date.now()
 				});
 
-				reply.status(200).send({ message: "user's tfa enabled now. " });
+				reply.status(200).send({ statusCode: reply.statusCode, message: "user's tfa enabled now. " });
 			} catch (error) {
-				reply.status(401).send(error);
+				reply.status(error.statusCode).send(error);
 			}
 			// console.log(request.headers);
 		}
