@@ -1,25 +1,34 @@
 {
-  "name": "copy-trader",
-  "version": "1.0.0",
-  "description": "a practice :)",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/sentax/copy-trader.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/sentax/copy-trader/issues"
-  },
-  "homepage": "https://github.com/sentax/copy-trader#readme",
-  "dependencies": {
-    "fastify": "^2.13.0",
-    "mongoose": "^5.9.7",
-    "mongoose-unique-validator": "^2.0.3"
-  }
+    "name": "copy-trader",
+    "version": "1.0.0",
+    "description": "a practice :)",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "dev": "nodemon api.js",
+        "start": "node api.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/sentax/copy-trader.git"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/sentax/copy-trader/issues"
+    },
+    "homepage": "https://github.com/sentax/copy-trader#readme",
+    "dependencies": {
+        "bcryptjs": "^2.4.3",
+        "fastify": "^2.13.0",
+        "jsonwebtoken": "^8.5.1",
+        "mongoose": "^5.9.7",
+        "mongoose-unique-validator": "^2.0.3",
+        "otplib": "^12.0.1",
+        "redis": "^3.0.2"
+    },
+    "devDependencies": {
+        "nodemon": "^2.0.2"
+    }
 }
